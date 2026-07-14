@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# OS
+.DS_Store
+
+# Pipeline data (generated locally — do not commit)
+videos/*
+!videos/.gitkeep
+audios/*
+!audios/.gitkeep
+jsons/*
+!jsons/.gitkeep
+new_jsons/*
+!new_jsons/.gitkeep
+
+# Embeddings & runtime artifacts
+*.joblib
+prompt.txt
+response.txt
+output.json
+
+# Docs build output
+PROJECT_HANDBOOK.pdf
