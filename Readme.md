@@ -37,14 +37,27 @@ Place course videos in `videos/`, then run each step in order:
 | 2 | `mp3_to_json.py` | `audios/` → `jsons/` |
 | 3 | `merge_chunks.py` | `jsons/` → `new_jsons/` (optional, recommended) |
 | 4 | `preprocess_new_json.py` | `new_jsons/` → `new_embeddings.joblib` |
-| 5 | `process_incoming.py` | user query + embeddings → answer |
+| 5 | `process_incoming.py` | user query + embeddings → answer (CLI) |
+| — | `api.py` | FastAPI server for web demo |
 
 ```bash
 python video_to_mp3.py
 python mp3_to_json.py
 python merge_chunks.py
 python preprocess_new_json.py
-python process_incoming.py
+python process_incoming.py          # CLI
+uvicorn api:app --host 0.0.0.0 --port 8000   # Web API
+```
+
+## Public demo (frontend + local backend)
+
+See **[DEPLOY.md](DEPLOY.md)** for step-by-step instructions:
+
+- **Frontend** → deploy `frontend/` to Vercel (free)
+- **Backend** → run `api.py` on your Mac + expose via Cloudflare Tunnel (free)
+
+```bash
+cd frontend && npm install && npm run dev   # local UI at :5173
 ```
 
 ## Project Structure
@@ -55,7 +68,11 @@ python process_incoming.py
 ├── merge_chunks.py          # Step 3: merge segments for retrieval
 ├── preprocess_json.py       # Step 4a: embed raw segments
 ├── preprocess_new_json.py   # Step 4b: embed merged chunks (used by Q&A)
-├── process_incoming.py      # Step 5: RAG question answering
+├── process_incoming.py      # Step 5: RAG Q&A (CLI)
+├── rag_engine.py            # Shared RAG logic
+├── api.py                   # FastAPI server for web demo
+├── frontend/                # React UI (deploy to Vercel)
+├── DEPLOY.md                # Public demo setup guide
 ├── videos/                  # input videos (not committed)
 ├── audios/                  # extracted MP3s (not committed)
 ├── jsons/                   # Whisper transcripts (not committed)
